@@ -175,7 +175,7 @@ static QJsonObject selfTest() {
     QString original=pulse({"get-default-sink"});auto before=devices();
     if(!streams().isEmpty())throw errorText("Stop other audio playback before running the routing test.", "Yönlendirme testi için çalan ses olmamalı.");
     QProcess sound;sound.setStandardInputFile("/dev/zero");sound.setStandardOutputFile(QProcess::nullDevice());sound.setStandardErrorFile(QProcess::nullDevice());
-    sound.start("/usr/bin/pacat",{"--playback","--raw","--format=s16le","--rate=48000","--channels=2","--client-name=PS4AudioSelectorTest","--stream-name=SilentTest"});
+    sound.start("/usr/bin/pacat",{"--playback","--raw","--format=s16le","--rate=48000","--channels=2","--client-name=LinuxAudioOutputSelectorTest","--stream-name=SilentTest"});
     if(!sound.waitForStarted())throw errorText("Could not start the silent test stream.", "Sessiz test akışı başlatılamadı.");
     QJsonArray tested;
     try {
@@ -203,14 +203,14 @@ int main(int argc,char**argv) {
                          {"percentage",percentage(40)}};
         fputs(QJsonDocument(info).toJson().constData(),stdout);return 0;
     }
-    QApplication app(argc,argv);app.setApplicationName("ps4-audio-selector");
+    QApplication app(argc,argv);app.setApplicationName("linux-audio-output-selector");
     try {
         auto args=app.arguments();
         if(args.contains("--self-test")){auto r=selfTest();fputs(QJsonDocument(r).toJson().constData(),stdout);return 0;}
         if(args.contains("--configure-panel")) {
             if(!QFileInfo::exists(QDir::homePath()+"/.config/lxqt/panel.conf"))throw errorText("LXQt panel configuration was not found.", "LXQt panel yapılandırması bulunamadı.");
             QSettings s(QDir::homePath()+"/.config/lxqt/panel.conf",QSettings::IniFormat);
-            s.setValue("volume/mixerCommand",QDir::homePath()+"/.local/bin/ps4-audio-selector");s.sync();
+            s.setValue("volume/mixerCommand",QDir::homePath()+"/.local/bin/linux-audio-output-selector");s.sync();
             if(s.status()!=QSettings::NoError)throw errorText("Could not save panel settings.", "Panel ayarı kaydedilemedi.");syncPanelSelection(pulse({"get-default-sink"}));return 0;
         }
         Picker picker;picker.show();

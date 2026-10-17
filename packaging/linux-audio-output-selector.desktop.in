@@ -1,10 +1,10 @@
 [Desktop Entry]
 Type=Application
-Name=Audio output
+Name=Linux Audio Output Selector
 Name[tr]=Ses çıkışı
 Comment=Choose an audio output and adjust its volume
 Comment[tr]=Ses çıkışını seç ve ses düzeyini değiştir
-Exec="@CMAKE_INSTALL_PREFIX@/bin/ps4-audio-selector"
+Exec="@CMAKE_INSTALL_PREFIX@/bin/linux-audio-output-selector"
 Icon=audio-headphones
 Terminal=false
 Categories=AudioVideo;Audio;
